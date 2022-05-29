@@ -1,4 +1,7 @@
+
+import React from "react";
 import { useNavigate } from "react-router-dom";
+import DisableElevation from "../components/Button";
 
 const Login = () => {
 
@@ -6,9 +9,31 @@ const Login = () => {
   const movePage = (path:string) => {
     navigate(`${path}`);
   }
+
   return (
+
+
     <div>
-      <h1>ログイン</h1>
+      <DisableElevation />
+      <h1>ログイン画面</h1>
+
+      <button onClick={() => movePage("Tweet")}>
+        ログイン
+
+
+      </button>
+
+
+
+      
+
+
+
+
+
+
+
+
     </div>
   )
   

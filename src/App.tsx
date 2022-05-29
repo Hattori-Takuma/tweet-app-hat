@@ -1,6 +1,10 @@
 import React from 'react';
 import { useNavigate } from "react-router-dom";
 import './App.css';
+import Login from './pages/Login';
+
+
+
 
 function App() {
   // const navigate = useNavigate();
@@ -10,8 +14,14 @@ function App() {
  
  
   return (
-
-<h1>hello</h1>
+    <>
+      
+    
+      <Login />
+</>
+   
+    
+  
     
 //  <div>
 //       <h1>login</h1>
