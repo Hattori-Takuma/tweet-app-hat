@@ -12,11 +12,11 @@ const Login = () => {
   }
 
   const google = async () => {
-    await googleLogin()
-
-
-
-  }
+    const result = await googleLogin()
+      //  if (user !== "") {
+      // movePage('/Tweet')
+    }
+  
 
 
 
