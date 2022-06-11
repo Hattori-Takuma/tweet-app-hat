@@ -2,6 +2,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import DisableElevation from "../components/Button";
+import { googleLogin } from "../models/authApplicationServics"
 
 const Login = () => {
 
@@ -9,6 +10,15 @@ const Login = () => {
   const movePage = (path:string) => {
     navigate(`${path}`);
   }
+
+  const google = async () => {
+    await googleLogin()
+
+
+
+  }
+
+
 
   return (
 
@@ -23,6 +33,11 @@ const Login = () => {
 
       </button>
 
+      <button onClick={google}>
+        googleログイン
+
+
+      </button>
 
 
       
