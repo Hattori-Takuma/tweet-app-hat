@@ -1,6 +1,6 @@
 import { getApps, initializeApp } from 'firebase/app'
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
-import { getFirestore, } from 'firebase/firestore'
+import { getFirestore, doc, setDoc } from 'firebase/firestore'
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,
@@ -20,3 +20,12 @@ if (!apps.length) {
 export const auth = getAuth();
 export const db = getFirestore();
 export const googleAuthProvider = new GoogleAuthProvider();
+
+export const setData = async () => {
+  await setDoc(doc(db, "cities", "LA"), {
+    name: "Los Angeles",
+    state: "CA",
+    country: "USA"
+  });
+  console.log(setData)
+}

@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import{setData}from "../plugins/firebase"
 
 
 
@@ -10,6 +11,18 @@ const Tweet = () => {
   return (
     <div>
       <h1>Tweet画面</h1>
+
+
+
+      <button onClick={setData}>setData</button>
+      
+
+
+
+
+
+
+
     </div>
   )
   
