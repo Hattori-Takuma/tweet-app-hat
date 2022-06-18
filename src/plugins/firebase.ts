@@ -1,6 +1,6 @@
 import { getApps, initializeApp } from 'firebase/app'
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
-import { getFirestore, doc, setDoc } from 'firebase/firestore'
+import { getFirestore, doc, setDoc, serverTimestamp, collection, query, addDoc, getDocs } from 'firebase/firestore'
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,
@@ -21,11 +21,24 @@ export const auth = getAuth();
 export const db = getFirestore();
 export const googleAuthProvider = new GoogleAuthProvider();
 
-export const setData = async () => {
-  await setDoc(doc(db, "cities", "LA"), {
-    name: "Los Angeles",
-    state: "CA",
-    country: "USA"
+export const setData = async (message: string) => {
+  await addDoc(collection(db, "message"), {
+    name: "loginuserName",
+    message: message,
+    time: serverTimestamp()
   });
-  console.log(setData)
+  console.log("Document written with ID: ")
 }
+
+
+
+
+export const readData = async () => {
+  console.log('readData')
+  const q = query(collection(db, "message"));
+  const querySnapshot = await getDocs(q);
+  querySnapshot.forEach((doc) => {
+    console.log(doc.id, " => ", doc.data());
+  });
+};
+
