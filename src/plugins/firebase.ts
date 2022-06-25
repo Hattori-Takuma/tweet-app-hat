@@ -1,6 +1,7 @@
 import { getApps, initializeApp } from 'firebase/app'
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
 import { getFirestore, doc, setDoc, serverTimestamp, collection, query, addDoc, getDocs } from 'firebase/firestore'
+import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,
@@ -17,8 +18,12 @@ const apps = getApps
 if (!apps.length) {
   initializeApp(firebaseConfig)
 }
+
+
 export const auth = getAuth();
 export const db = getFirestore();
+export const storage = getStorage()
+
 export const googleAuthProvider = new GoogleAuthProvider();
 
 export const setData = async (message: string) => {
