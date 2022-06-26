@@ -1,9 +1,10 @@
 import React, { useState,useEffect } from 'react';
 import { cardActionAreaClasses, TextField } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { setData ,db} from "../plugins/firebase"
+import { setData ,db,uploadeImage} from "../plugins/firebase"
 import './Tweet.css'
 import { collection, query, orderBy, onSnapshot } from "firebase/firestore";
+
 
 
 
@@ -14,6 +15,17 @@ const Tweet = () => {
 
 const [message, setMessage] = useState("")
 
+  const [tweetImage, setTweetImage] = useState<File|null>(null)
+  
+   const onChangeImageHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files![0]) {
+      setTweetImage(e.target.files![0]);
+      e.target.value = '';
+    }
+  };
+
+
+
 
    const navigate = useNavigate();
   const movePage = (path:string) => {
@@ -23,6 +35,12 @@ const [message, setMessage] = useState("")
   const handleClick = () => {
     setData(message)
   }
+
+  const handlClick2 = () => {
+    uploadeImage(tweetImage!)
+
+  }
+  
 
    const [chat, setChat] = useState<any[]>([])
   
@@ -80,13 +98,9 @@ useEffect(() =>{
        </TextField>
 
         <button onClick={handleClick}>setData</button>
-        </div>
-      
-
-
-
-
-
+        <input type="file" onChange={onChangeImageHandler}></input>
+      </div>
+      <button　onClick={handlClick2}>アップロード</button>
 
 
     </div>

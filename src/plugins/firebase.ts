@@ -1,7 +1,8 @@
 import { getApps, initializeApp } from 'firebase/app'
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
 import { getFirestore, doc, setDoc, serverTimestamp, collection, query, addDoc, getDocs } from 'firebase/firestore'
-import { getStorage } from "firebase/storage";
+import { getStorage, ref, uploadBytes } from "firebase/storage";
+
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,
@@ -46,4 +47,24 @@ export const readData = async () => {
     console.log(doc.id, " => ", doc.data());
   });
 };
+
+
+export const uploadeImage = (file: File) => {
+
+  const imagesRef = ref(storage, 'images');
+  const spaceRef = ref(storage, 'images/space.jpg');
+  const mountainsRef = ref(storage, 'mountains.jpg');
+  const mountainImagesRef = ref(storage, 'images/mountains.jpg');
+
+  // mountainsRef.name === mountainImagesRef.name;           // true
+  // mountainsRef.fullPath === mountainImagesRef.fullPath;   // false 
+
+  const storageRef = ref(storage, 'some-child');
+
+  // 'file' comes from the Blob or File API
+  uploadBytes(storageRef, file).then((snapshot) => {
+    console.log('Uploaded a blob or file!');
+  });
+}
+
 
