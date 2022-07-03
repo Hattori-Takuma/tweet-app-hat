@@ -99,9 +99,9 @@ useEffect(() =>{
 
         <button onClick={handleClick}>setData</button>
         <input type="file" onChange={onChangeImageHandler}></input>
-      </div>
-      <button　onClick={handlClick2}>アップロード</button>
-
+      
+      <button　onClick={handlClick2}>画像アップロード</button>
+</div>
 
     </div>
   )

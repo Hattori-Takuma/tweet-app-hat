@@ -25,6 +25,10 @@ export const auth = getAuth();
 export const db = getFirestore();
 export const storage = getStorage()
 
+
+
+
+
 export const googleAuthProvider = new GoogleAuthProvider();
 
 export const setData = async (message: string) => {
@@ -49,22 +53,27 @@ export const readData = async () => {
 };
 
 
-export const uploadeImage = (file: File) => {
+export const uploadeImage = async (file: File) => {
+  console.log(file, "=========")
 
-  const imagesRef = ref(storage, 'images');
-  const spaceRef = ref(storage, 'images/space.jpg');
-  const mountainsRef = ref(storage, 'mountains.jpg');
-  const mountainImagesRef = ref(storage, 'images/mountains.jpg');
+  // const imagesRef = ref(storage, 'images');
+  // const spaceRef = ref(storage, 'images/space.jpg');
+  // const mountainsRef = ref(storage, 'mountains.jpg');
+  // const mountainImagesRef = ref(storage, 'images/mountains.jpg');
 
   // mountainsRef.name === mountainImagesRef.name;           // true
   // mountainsRef.fullPath === mountainImagesRef.fullPath;   // false 
+  try {
+    const storageRef = await ref(storage, 'some-child');
+    uploadBytes(storageRef, file).then((snapshot) => {
+      console.log('Uploaded a blob or file!', snapshot);
+    });
 
-  const storageRef = ref(storage, 'some-child');
+  } catch (error) {
+    console.log(error
+    )
+  }
 
-  // 'file' comes from the Blob or File API
-  uploadBytes(storageRef, file).then((snapshot) => {
-    console.log('Uploaded a blob or file!');
-  });
 }
 
 
