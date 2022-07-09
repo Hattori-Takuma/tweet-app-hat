@@ -4,6 +4,8 @@ import { getFirestore, doc, setDoc, serverTimestamp, collection, query, addDoc, 
 import { getStorage, ref, uploadBytes } from "firebase/storage";
 
 
+console.log(process.env.REACT_APP_API_KEY, "test")
+
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,
   authDomain: process.env.REACT_APP_AUTH_DOMAIN,

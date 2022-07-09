@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { setData ,db,uploadeImage} from "../plugins/firebase"
 import './Tweet.css'
 import { collection, query, orderBy, onSnapshot } from "firebase/firestore";
+import MessageBox from '../components/MessageBox';
 
 
 
@@ -83,6 +84,8 @@ useEffect(() =>{
             </h3>
           })
         }
+
+      
 
    
 
