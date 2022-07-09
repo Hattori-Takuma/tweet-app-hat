@@ -98,7 +98,7 @@ useEffect(() =>{
        </TextField>
 
         <button onClick={handleClick}>setData</button>
-        <input type="file" onChange={onChangeImageHandler}></input>
+        <input type="file"   onChange={onChangeImageHandler}></input>
       
       <button　onClick={handlClick2}>画像アップロード</button>
 </div>
