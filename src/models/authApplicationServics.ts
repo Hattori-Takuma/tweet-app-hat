@@ -1,11 +1,8 @@
-import { auth, googleAuthProvider, setData } from "../plugins/firebase"
-
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
-import { resourceLimits } from "worker_threads";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { auth, googleAuthProvider } from "../plugins/firebase";
 
 export const googleLogin = async () => {
   // const provider = new GoogleAuthProvider();
-
   signInWithPopup(auth, googleAuthProvider)
     .then((result) => {
       // This gives you a Google Access Token. You can use it to access the Google API.
