@@ -1,7 +1,10 @@
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { auth, googleAuthProvider } from "../plugins/firebase";
 
+
 export const googleLogin = async () => {
+
+
   // const provider = new GoogleAuthProvider();
   signInWithPopup(auth, googleAuthProvider)
     .then((result) => {
@@ -10,6 +13,9 @@ export const googleLogin = async () => {
       // const token = credential.accessToken;
       // The signed-in user info.
       const user = result.user;
+      console.log(user.displayName)
+      console.log(user.email)
+      console.log(user.uid)
       // ...
     }).catch((error) => {
       // Handle Errors here.
@@ -21,8 +27,11 @@ export const googleLogin = async () => {
       const credential = GoogleAuthProvider.credentialFromError(error);
       // ...
     });
-
 }
+
+
+
+
 
 
 

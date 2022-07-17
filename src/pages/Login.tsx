@@ -1,6 +1,7 @@
 
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { setOriginalNode } from "typescript";
 import DisableElevation from "../components/Button";
 import { googleLogin } from "../models/authApplicationServics"
 
@@ -8,15 +9,22 @@ const Login = () => {
 
    const navigate = useNavigate();
   const movePage = (path:string) => {
-    navigate(`${path}`);
+    navigate(`${path}/`);
   }
 
+   
+
+ 
   const google = async () => {
     const result = await googleLogin()
-      //  if (user !== "") {
-      // movePage('/Tweet')
-    }
+    // if (user !== "") {
+      movePage('/Tweet')
+    console.log(result)
+  }
   
+    
+  
+
 
 
 
@@ -56,4 +64,4 @@ const Login = () => {
 
 };
 
-export default Login;
+  export default Login;

@@ -14,7 +14,8 @@ import MessageBox from '../components/MessageBox';
 
 const Tweet = () => {
 
-const [message, setMessage] = useState("")
+  const [message, setMessage] = useState("")
+  
 
   const [tweetImage, setTweetImage] = useState<File|null>(null)
   
@@ -74,6 +75,8 @@ useEffect(() =>{
   return (
     <div>
       <h1>Tweet画面</h1>
+      {/* <h2>name:{user.displayName}</h2> */}
+     
 
 
 
