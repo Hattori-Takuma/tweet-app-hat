@@ -18,9 +18,11 @@ const Login = () => {
   const google = async () => {
     const result = await googleLogin()
     // if (user !== "") {
-      movePage('/Tweet')
+      // movePage('/Tweet')
     console.log(result)
   }
+   
+
   
     
   

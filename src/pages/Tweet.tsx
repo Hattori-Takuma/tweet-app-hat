@@ -5,6 +5,7 @@ import { setData ,db,uploadeImage} from "../plugins/firebase"
 import './Tweet.css'
 import { collection, query, orderBy, onSnapshot } from "firebase/firestore";
 import MessageBox from '../components/MessageBox';
+import {googleLogin}from"../models/authApplicationServics"
 
 
 
@@ -42,6 +43,8 @@ const Tweet = () => {
     uploadeImage(tweetImage!)
 
   }
+ 
+  
   
 
    const [chat, setChat] = useState<any[]>([])
@@ -60,7 +63,6 @@ useEffect(() =>{
   return unsubscribe
 
 }, [])
-   
   
 
 
@@ -75,7 +77,8 @@ useEffect(() =>{
   return (
     <div>
       <h1>Tweet画面</h1>
-      {/* <h2>name:{user.displayName}</h2> */}
+      <h2></h2>
+
      
 
 
