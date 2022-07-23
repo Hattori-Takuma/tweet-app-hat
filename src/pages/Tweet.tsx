@@ -1,20 +1,18 @@
 import { TextField } from '@mui/material';
+import Avatar from '@mui/material/Avatar';
 import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { selectUser } from '../features/user/userSlice';
 import { useLoginCheck } from '../hooks/useLoginCheck';
+import { useAppSelector } from '../hooks/useRTK';
+import { logout } from '../models/authApplicationServics';
 import { db, setData, uploadeImage } from '../plugins/firebase';
 import './Tweet.css';
-import { useAppSelector } from '../hooks/useRTK'
-import { selectUser } from '../features/user/userSlice'
-import { logout } from "../models/authApplicationServics"
-
-
 
 const Tweet = () => {
-  const user = useAppSelector(selectUser)
-  console.log(user)
-  
+  const user = useAppSelector(selectUser);
+  console.log(user);
 
   const isLogin = useLoginCheck();
   const [chat, setChat] = useState<any[]>([]);
@@ -45,21 +43,14 @@ const Tweet = () => {
   };
 
   const handlClick2 = () => {
-
-
     uploadeImage(tweetImage!);
   };
- 
 
-  const googleLogOut =async  () => {
-    await logout()
-      movePage("/Login")
-    console.log("logout")  
-  }
-  
-
- 
-
+  const googleLogOut = async () => {
+    await logout();
+    movePage('/Login');
+    console.log('logout');
+  };
 
   useEffect(() => {
     const q = query(collection(db, 'message'), orderBy('time'));
@@ -74,21 +65,22 @@ const Tweet = () => {
     return unsubscribe;
   }, []);
 
+  console.log(user, 'user.photoUrl ***');
+
   return (
     <div>
       <header className="header">
-        <img　className="icon" src={user.photoUrl} />
+        <Avatar alt="User" src={user.photoUrl} />
+        <img className="icon" src={user.photoUrl} />
         <div className="userIcon">{user.displayName}</div>
-          {/* <div className="home">home</div> */}
+        {/* <div className="home">home</div> */}
         <div className="logout">
           <div>{user.email}</div>
-        <button onClick={googleLogOut}>ログアウト</button>
-     </div>
-   </header>
-      
-      
-      
-        <div className="show-message-area">
+          <button onClick={googleLogOut}>ログアウト</button>
+        </div>
+      </header>
+
+      <div className="show-message-area">
         {chat.map((chat, index) => {
           return (
             <h3>
