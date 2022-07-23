@@ -1,3 +1,16 @@
+
+.header{ 
+   display: flex;
+}
+
+.logout{
+   position:  absolute;
+   right: 0%;
+}
+
+
+
+
 .sent{
    display: flex;
   width: 100vw;
@@ -8,4 +21,10 @@
 
  position: absolute;/*←絶対位置*/
     bottom: 0; /*下に固定*/
+}
+
+.icon{
+    width: 5vw;
+  height: 5vh;
+
 }

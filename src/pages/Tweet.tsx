@@ -5,9 +5,17 @@ import { useNavigate } from 'react-router-dom';
 import { useLoginCheck } from '../hooks/useLoginCheck';
 import { db, setData, uploadeImage } from '../plugins/firebase';
 import './Tweet.css';
+import { useAppSelector } from '../hooks/useRTK'
+import { selectUser } from '../features/user/userSlice'
+import { logout } from "../models/authApplicationServics"
+
 
 
 const Tweet = () => {
+  const user = useAppSelector(selectUser)
+  console.log(user)
+  
+
   const isLogin = useLoginCheck();
   const [chat, setChat] = useState<any[]>([]);
   useEffect(() => {
@@ -41,6 +49,16 @@ const Tweet = () => {
 
     uploadeImage(tweetImage!);
   };
+ 
+
+  const googleLogOut =async  () => {
+    await logout()
+      movePage("/Login")
+    console.log("logout")  
+  }
+  
+
+ 
 
 
   useEffect(() => {
@@ -58,9 +76,19 @@ const Tweet = () => {
 
   return (
     <div>
-      <h1>Tweet画面</h1>
-
-      <div className="show-message-area">
+      <header className="header">
+        <img　className="icon" src={user.photoUrl} />
+        <div className="userIcon">{user.displayName}</div>
+          {/* <div className="home">home</div> */}
+        <div className="logout">
+          <div>{user.email}</div>
+        <button onClick={googleLogOut}>ログアウト</button>
+     </div>
+   </header>
+      
+      
+      
+        <div className="show-message-area">
         {chat.map((chat, index) => {
           return (
             <h3>

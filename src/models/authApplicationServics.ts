@@ -1,4 +1,4 @@
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
 import { auth, googleAuthProvider } from "../plugins/firebase";
 
 
@@ -28,14 +28,26 @@ export const googleLogin = async () => {
         // ...
         reject(error)
       });
-
-
   });
+}
 
 
-
+export const logout = async () => {
+  await signOut(auth)
+    .then(() => {
+      console.log("successful")
+    }).catch((error) => {
+      console.log("error")
+    });
 
 }
+
+
+
+
+
+
+
 
 
 

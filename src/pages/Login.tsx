@@ -12,30 +12,20 @@ const Login = () => {
     navigate(`${path}/`);
   }
 
-   
-
- 
   const google = async () => {
     const result = await googleLogin()
-    // if (user !== "") {
-      // movePage('/Tweet')
+  
+      movePage('/Tweet')
     console.log(result)
   }
-   
-
-  
-    
-  
-
-
-
 
   return (
 
 
     <div>
-      <DisableElevation />
+      {/* <DisableElevation /> */}
       <h1>ログイン画面</h1>
+      
 
       <button onClick={() => movePage("Tweet")}>
         ログイン
@@ -48,17 +38,6 @@ const Login = () => {
 
 
       </button>
-
-
-      
-
-
-
-
-
-
-
-
     </div>
   )
   
