@@ -1,10 +1,7 @@
-import { getApps, initializeApp } from 'firebase/app'
-import { getAuth, GoogleAuthProvider, onAuthStateChanged, signOut } from "firebase/auth";
-import { getFirestore, doc, setDoc, serverTimestamp, collection, query, addDoc, getDocs } from 'firebase/firestore'
-import { getStorage, ref, uploadBytes } from "firebase/storage";
-
-
-console.log(process.env.REACT_APP_API_KEY, "test")
+import { getApps, initializeApp } from 'firebase/app';
+import { getAuth, GoogleAuthProvider } from "firebase/auth";
+import { addDoc, collection, getDocs, getFirestore, query, serverTimestamp } from 'firebase/firestore';
+import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/storage";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,
@@ -28,23 +25,17 @@ export const auth = getAuth();
 export const db = getFirestore();
 export const storage = getStorage()
 
-
-
-
-
 export const googleAuthProvider = new GoogleAuthProvider();
 
-export const setData = async (message: string) => {
+export const setData = async (message: string, imageUrl?: string) => {
   await addDoc(collection(db, "message"), {
     name: "loginuserName",
     message: message,
+    imageUrl:imageUrl,
     time: serverTimestamp()
   });
   console.log("Document written with ID: ")
 }
-
-
-
 
 export const readData = async () => {
   console.log('readData')
@@ -56,22 +47,51 @@ export const readData = async () => {
 };
 
 export const uploadeImage = async (file: File) => {
-  console.log(file, "=========")
-  const random = Math.random().toString(32).substring(2)
-  try {
-    const storageRef = await ref(storage, `hattori/${random}.png`);
-    uploadBytes(storageRef, file).then((snapshot) => {
-      console.log('Uploaded a blob or file!', snapshot);
-    });
-  } catch (error) {
-    console.log(error
-    )
-  }
-}
+    const random = Math.random().toString(32).substring(2);
+    try {
+      const storageRef = await ref(storage, `hattori/${random}_test.png`);
+      uploadBytesResumable(storageRef, file);
+      // Upload the file and metadata
+      const uploadTask = uploadBytesResumable(storageRef, file);
+      uploadTask.on(
+        'state_changed',
+        (snapshot) => {
+          console.log(
+            '🚀 ~ file: firebase.ts ~ line 65 ~ uploadeImage ~ snapshot.state',
+            snapshot.state
+          );
+          // Observe state change events such as progress, pause, and resume
+          // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+          switch (snapshot.state) {
+            case 'paused':
+              console.log('Upload is paused : ', snapshot.state);
+              break;
+            case 'running':
+              console.log('Upload is running : ', snapshot.state);
+              break;
+          }
+        },
+        (error) => {
+          console.log(
+            '🚀 ~ file: Tweet.tsx ~ line 93 ~ uploadeImage ~ error',
+            error
+          );
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            console.log(
+              '🚀 ~ file: Tweet.tsx ~ line 97 ~ getDownloadURL ~ downloadURL',
+              downloadURL
+            );
+          });
+        }
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
 export const readImage = () => {
-
-
   const pathReference = ref(storage, 'images/stars.jpg');
   // Create a reference from a Google Cloud Storage URI
   const gsReference = ref(storage, 'gs://bucket/images/stars.jpg');

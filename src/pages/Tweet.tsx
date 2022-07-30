@@ -7,24 +7,34 @@ import { selectUser } from '../features/user/userSlice';
 import { useLoginCheck } from '../hooks/useLoginCheck';
 import { useAppSelector } from '../hooks/useRTK';
 import { logout } from '../models/authApplicationServics';
-import { db, setData, uploadeImage } from '../plugins/firebase';
+import { sendMessageAndUploadeImage } from '../models/tweetApplicationService';
+import { db, setData } from '../plugins/firebase';
 import './Tweet.css';
 
 const Tweet = () => {
   const user = useAppSelector(selectUser);
-  console.log(user);
-
   const isLogin = useLoginCheck();
+  const [message, setMessage] = useState('');
   const [chat, setChat] = useState<any[]>([]);
+  const [tweetImage, setTweetImage] = useState<File | null>(null);
+
   useEffect(() => {
     if (!isLogin) {
       console.log(`login status : [ ${isLogin} ]`);
     }
   }, [isLogin]);
 
-  const [message, setMessage] = useState('');
-
-  const [tweetImage, setTweetImage] = useState<File | null>(null);
+  useEffect(() => {
+    const q = query(collection(db, 'message'), orderBy('time'));
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      const messagesInfo: any[] = [];
+      querySnapshot.forEach((doc) => {
+        messagesInfo.push(doc.data());
+      });
+      setChat(messagesInfo);
+    });
+    return unsubscribe;
+  }, []);
 
   const onChangeImageHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files![0]) {
@@ -43,7 +53,16 @@ const Tweet = () => {
   };
 
   const handlClick2 = () => {
-    uploadeImage(tweetImage!);
+    sendMessageAndUploadeImage('', '', tweetImage!);
+  };
+
+  const handleClick3 = async (message: string, file: File | null) => {
+    if (message === '') return;
+    if (file === null) {
+      await setData(message);
+    } else {
+      await sendMessageAndUploadeImage(user.displayName, message, file);
+    }
   };
 
   const googleLogOut = async () => {
@@ -52,26 +71,11 @@ const Tweet = () => {
     console.log('logout');
   };
 
-  useEffect(() => {
-    const q = query(collection(db, 'message'), orderBy('time'));
-    const unsubscribe = onSnapshot(q, (querySnapshot) => {
-      const messagesInfo: any[] = [];
-      querySnapshot.forEach((doc) => {
-        messagesInfo.push(doc.data());
-      });
-      setChat(messagesInfo);
-    });
-    console.log(unsubscribe);
-    return unsubscribe;
-  }, []);
-
-  console.log(user, 'user.photoUrl ***');
-
   return (
     <div>
       <header className="header">
         <Avatar alt="User" src={user.photoUrl} />
-       
+
         <div className="userIcon">{user.displayName}</div>
         {/* <div className="home">home</div> */}
         <div className="logout">
@@ -97,7 +101,11 @@ const Tweet = () => {
         <button onClick={handleClick}>setData</button>
         <input type="file" onChange={onChangeImageHandler}></input>
 
+        {/* <button onClick={() => uploadeImage(tweetImage!)}> */}
         <button onClick={handlClick2}>画像アップロード</button>
+        <button onClick={() => handleClick3(message, tweetImage)}>
+          made by satake
+        </button>
       </div>
     </div>
   );
