@@ -62,6 +62,8 @@ export const uploadeImage = async (file: File) => {
     const storageRef = await ref(storage, `hattori/${random}.png`);
     uploadBytes(storageRef, file).then((snapshot) => {
       console.log('Uploaded a blob or file!', snapshot);
+
+
     });
   } catch (error) {
     console.log(error
