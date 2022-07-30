@@ -71,7 +71,7 @@ const Tweet = () => {
     <div>
       <header className="header">
         <Avatar alt="User" src={user.photoUrl} />
-        <img className="icon" src={user.photoUrl} />
+       
         <div className="userIcon">{user.displayName}</div>
         {/* <div className="home">home</div> */}
         <div className="logout">
@@ -85,7 +85,7 @@ const Tweet = () => {
           return (
             <h3>
               {' '}
-              key={index} message={chat.message}
+              key={index} message={chat.message} name={chat.name}
             </h3>
           );
         })}

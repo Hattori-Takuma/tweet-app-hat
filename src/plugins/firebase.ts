@@ -55,27 +55,29 @@ export const readData = async () => {
   });
 };
 
-
 export const uploadeImage = async (file: File) => {
   console.log(file, "=========")
-
-  // const imagesRef = ref(storage, 'images');
-  // const spaceRef = ref(storage, 'images/space.jpg');
-  // const mountainsRef = ref(storage, 'mountains.jpg');
-  // const mountainImagesRef = ref(storage, 'images/mountains.jpg');
-
-  // mountainsRef.name === mountainImagesRef.name;           // true
-  // mountainsRef.fullPath === mountainImagesRef.fullPath;   // false 
+  const random = Math.random().toString(32).substring(2)
   try {
-    const storageRef = await ref(storage, 'some-child');
+    const storageRef = await ref(storage, `hattori/${random}.png`);
     uploadBytes(storageRef, file).then((snapshot) => {
       console.log('Uploaded a blob or file!', snapshot);
     });
-
   } catch (error) {
     console.log(error
     )
   }
+}
+
+export const readImage = () => {
+
+
+  const pathReference = ref(storage, 'images/stars.jpg');
+  // Create a reference from a Google Cloud Storage URI
+  const gsReference = ref(storage, 'gs://bucket/images/stars.jpg');
+  // Create a reference from an HTTPS URL
+  // Note that in the URL, characters are URL escaped!
+  const httpsReference = ref(storage, 'https://firebasestorage.googleapis.com/b/bucket/o/images%20stars.jpg');
 
 }
 
