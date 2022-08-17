@@ -1,10 +1,7 @@
-import { getApps, initializeApp } from 'firebase/app'
-import { getAuth, GoogleAuthProvider, onAuthStateChanged, signOut } from "firebase/auth";
-import { getFirestore, doc, setDoc, serverTimestamp, collection, query, addDoc, getDocs } from 'firebase/firestore'
-import { getStorage, ref, uploadBytes } from "firebase/storage";
-
-
-console.log(process.env.REACT_APP_API_KEY, "test")
+import { getApps, initializeApp } from 'firebase/app';
+import { getAuth, GoogleAuthProvider } from "firebase/auth";
+import { addDoc, collection, getDocs, getFirestore, query, serverTimestamp } from 'firebase/firestore';
+import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/storage";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,
@@ -28,23 +25,17 @@ export const auth = getAuth();
 export const db = getFirestore();
 export const storage = getStorage()
 
-
-
-
-
 export const googleAuthProvider = new GoogleAuthProvider();
 
-export const setData = async (message: string) => {
+export const setData = async (message: string, imageUrl?: string) => {
   await addDoc(collection(db, "message"), {
     name: "loginuserName",
     message: message,
+    imageUrl:imageUrl,
     time: serverTimestamp()
   });
   console.log("Document written with ID: ")
 }
-
-
-
 
 export const readData = async () => {
   console.log('readData')
@@ -72,8 +63,6 @@ export const uploadeImage = async (file: File) => {
 }
 
 export const readImage = () => {
-
-
   const pathReference = ref(storage, 'images/stars.jpg');
   // Create a reference from a Google Cloud Storage URI
   const gsReference = ref(storage, 'gs://bucket/images/stars.jpg');
