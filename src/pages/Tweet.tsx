@@ -10,6 +10,7 @@ import { logout } from '../models/authApplicationServics';
 import { sendMessageAndUploadeImage } from '../models/tweetApplicationService';
 import { db, setData } from '../plugins/firebase';
 import './Tweet.css';
+import MessageBox from '../components/MessageBox';
 
 
 const Tweet = () => {
@@ -74,15 +75,21 @@ const Tweet = () => {
 
   return (
     <div>
-      <header className="header">
-        <Avatar alt="User" src={user.photoUrl} />
-
-        <div className="userIcon">{user.displayName}</div>
-        {/* <div className="home">home</div> */}
-        <div className="logout">
+      <p className="all">
+        <p className="side">
+          <div className="account">
+           <Avatar alt="User" src={user.photoUrl} />
+          <div className="userIcon">{user.displayName}</div>
+            <div className="logout">
           <div>{user.email}</div>
-          <button onClick={googleLogOut}>ログアウト</button>
+              <button onClick={googleLogOut}>ログアウト</button>
+              </div>
         </div>
+      </p>
+      <p className="main">
+      <header className="header">
+      
+      
       </header>
 
       <div className="show-message-area">
@@ -107,7 +114,9 @@ const Tweet = () => {
         <button onClick={() => handleClick3(message, tweetImage)}>
           made by satake
         </button>
-      </div>
+        </div>
+        </p>
+        </p>
     </div>
   );
 };

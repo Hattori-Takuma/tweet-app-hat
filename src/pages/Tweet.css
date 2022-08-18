@@ -12,19 +12,48 @@
 
 
 .sent{
-   display: flex;
-  width: 100vw;
-  height: 10vh;
-  justify-content: center;
-  align-items: center;
-  background-color:white;
-
- position: absolute;/*←絶対位置*/
-    bottom: 0; /*下に固定*/
+ position: sticky;
+    position: -webkit-sticky;
+    bottom: 0;
+    background-color:wheat;
+    
 }
 
 .icon{
     width: 5vw;
   height: 5vh;
 
+}
+
+.all{
+    display: flex;
+}
+
+.main{
+   
+    width: 90%;
+    margin: 0;
+    padding: 10px;
+    line-height: 3;
+    background: linear-gradient(#80b6e2, #87afca);
+}
+
+
+
+.side{
+  
+    position: sticky;
+    top: 0;
+    width: 10%;
+    height: 1000px;
+    padding: 10px;
+    margin: 0;
+    line-height: 3;
+    background: linear-gradient(#2e2e30, #272524);
+    color: white;
+}
+.account{
+  position: sticky;
+    position: -webkit-sticky;
+    top: 0;
 }
