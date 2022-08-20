@@ -50,9 +50,15 @@ const Tweet = () => {
     navigate(`${path}`);
   };
 
-  const handleClick = () => {
-    setData(message);
+  const handleClick = async (message: string, file: File | null) => {
+    if (message === '') return;
+    if (file === null) {
+      await setData(message);
+    } else {
+      await sendMessageAndUploadeImage(user.displayName, message, file);
+    }
   };
+ 
 
   const handlClick2 = () => {
     sendMessageAndUploadeImage('', '', tweetImage!);
@@ -95,10 +101,12 @@ const Tweet = () => {
       <div className="show-message-area">
         {chat.map((chat, index) => {
           return (
-            <h3>
+            <div>
+              <MessageBox message={chat.message }/>
               {' '}
               key={index} message={chat.message} name={chat.name}
-            </h3>
+              <img src={chat.imageUrl}></img>
+            </div>
           );
         })}
           </div>
@@ -108,7 +116,7 @@ const Tweet = () => {
           <div className="sent">
         <TextField onChange={(e) => setMessage(e.target.value)}></TextField>
 
-        <button onClick={handleClick}>setData</button>
+        <button onClick={() => handleClick3(message, tweetImage)}>setData</button>
         <input type="file" onChange={onChangeImageHandler}></input>
 
         {/* <button onClick={() => uploadeImage(tweetImage!)}> */}

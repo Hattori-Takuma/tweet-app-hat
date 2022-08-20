@@ -24,10 +24,12 @@ export const storage = getStorage()
 export const googleAuthProvider = new GoogleAuthProvider();
 
 export const setData = async (message: string, imageUrl?: string) => {
+  console.log(message)
+  console.log(imageUrl)
   await addDoc(collection(db, "message"), {
     name: "loginuserName",
     message: message,
-    imageUrl: imageUrl,
+    imageUrl: imageUrl === undefined ? "" : imageUrl,
     time: serverTimestamp()
   });
   console.log("Document written with ID: ")
