@@ -11,12 +11,18 @@
 
 
 
-.sent{
- position: sticky;
+.rightside{
+   color: white;
     position: -webkit-sticky;
-    bottom: 0;
-    background-color:wheat;
-    
+    position: sticky;
+    top: 0;
+    width: 20%;
+  
+    padding: 10px;
+    margin: 0;
+    line-height: 3;
+    background-color:gray
+
 }
 
 .icon{
@@ -31,7 +37,7 @@
 
 .main{
    
-    width: 90%;
+    width: 70%;
     margin: 0;
     padding: 10px;
     line-height: 3;
@@ -45,15 +51,21 @@
     position: sticky;
     top: 0;
     width: 10%;
-    height: 1000px;
+ 
     padding: 10px;
     margin: 0;
     line-height: 3;
-    background: linear-gradient(#2e2e30, #272524);
+    background-color: gray;
     color: white;
 }
 .account{
   position: sticky;
     position: -webkit-sticky;
     top: 0;
+}
+.sent{
+     position: sticky;
+    position: -webkit-sticky;
+    top: 0;
+
 }

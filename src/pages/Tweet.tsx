@@ -101,9 +101,11 @@ const Tweet = () => {
             </h3>
           );
         })}
-      </div>
+          </div>
+          </p>
 
-      <div className="sent">
+        <p className="rightside">
+          <div className="sent">
         <TextField onChange={(e) => setMessage(e.target.value)}></TextField>
 
         <button onClick={handleClick}>setData</button>
@@ -112,9 +114,10 @@ const Tweet = () => {
         {/* <button onClick={() => uploadeImage(tweetImage!)}> */}
         <button onClick={handlClick2}>画像アップロード</button>
         <button onClick={() => handleClick3(message, tweetImage)}>
-          made by satake
+              made by satake
         </button>
-        </div>
+            </div>
+      
         </p>
         </p>
     </div>
