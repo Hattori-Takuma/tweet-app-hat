@@ -64,8 +64,20 @@
     top: 0;
 }
 .sent{
-     position: sticky;
-    position: -webkit-sticky;
-    top: 0;
+    display: flex;
+    align-items: center;
+}
 
+.display_none{
+    display: none;
+}
+
+.btn{
+    width: 5rem;
+    height: 2rem;
+}
+
+.label_style{
+    margin: 1rem;
+    cursor: pointer;
 }
