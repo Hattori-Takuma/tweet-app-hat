@@ -1,6 +1,6 @@
 import { TextField } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
-import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
+import { collection, onSnapshot, orderBy, query ,limit} from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { selectUser } from '../features/user/userSlice';
@@ -11,6 +11,7 @@ import { sendMessageAndUploadeImage } from '../models/tweetApplicationService';
 import { db, setData } from '../plugins/firebase';
 import './Tweet.css';
 import MessageBox from '../components/MessageBox';
+import { time } from 'console';
 
 
 const Tweet = () => {
@@ -27,7 +28,7 @@ const Tweet = () => {
   }, [isLogin]);
 
   useEffect(() => {
-    const q = query(collection(db, 'message'), orderBy('time'));
+    const q = query(collection(db, 'message'), orderBy('time',"desc"),limit(30));
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       const messagesInfo: any[] = [];
       querySnapshot.forEach((doc) => {
