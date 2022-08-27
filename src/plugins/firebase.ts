@@ -34,7 +34,6 @@ export const setData = async (message: string, imageUrl?: string) => {
   });
   console.log("Document written with ID: ")
 }
-
 export const readData = async () => {
   console.log('readData')
   const q = query(collection(db, "message"));
@@ -96,16 +95,4 @@ export const readImage = () => {
   // Create a reference from an HTTPS URL
   // Note that in the URL, characters are URL escaped!
   const httpsReference = ref(storage, 'https://firebasestorage.googleapis.com/b/bucket/o/images%20stars.jpg');
-}
-
-export const setComment = async (message: string, imageUrl?: string) => {
-  console.log(message)
-  console.log(imageUrl)
-  await addDoc(collection(db, "message"), {
-    name: "loginuserName",
-    message: message,
-    imageUrl: imageUrl === undefined ? "" : imageUrl,
-    time: serverTimestamp()
-  });
-  console.log("Document written with ID: ")
 }

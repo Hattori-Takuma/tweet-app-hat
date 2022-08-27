@@ -1,41 +1,30 @@
+import DriveFolderUploadIcon from '@mui/icons-material/DriveFolderUpload';
+import { TextField } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 
-import {
-  collection,
-  limit,
-  onSnapshot,
-  orderBy,
-  query,
-} from 'firebase/firestore';
+import { collection, onSnapshot, orderBy, query ,limit} from 'firebase/firestore';
 
-import CommentModal from '../components/CommentModal';
+import Button from '@mui/material/Button';
 
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import MessageBox from '../components/MessageBox';
-import TweetArea from '../components/TweetArea';
 import { selectUser } from '../features/user/userSlice';
 import { useLoginCheck } from '../hooks/useLoginCheck';
 import { useAppSelector } from '../hooks/useRTK';
 import { logout } from '../models/authApplicationServics';
-import {
-  sendCommentAndUploadeImage,
-  sendMessageAndUploadeImage,
-} from '../models/tweetApplicationService';
-import { db, setComment, setData } from '../plugins/firebase';
+import { sendMessageAndUploadeImage } from '../models/tweetApplicationService';
+import { db, setData } from '../plugins/firebase';
 import './Tweet.css';
 
-enum tweetType {
-  COMMENT,
-  TWEET,
-}
+import { time } from 'console';
+
 
 const Tweet = () => {
   const user = useAppSelector(selectUser);
   const isLogin = useLoginCheck();
   const [message, setMessage] = useState('');
   const [chat, setChat] = useState<any[]>([]);
-  console.log('🚀 ~ file: Tweet.tsx ~ line 38 ~ Tweet ~ chat', chat);
   const [tweetImage, setTweetImage] = useState<File | null>(null);
 
   useEffect(() => {
@@ -45,15 +34,12 @@ const Tweet = () => {
   }, [isLogin]);
 
   useEffect(() => {
-    const q = query(
-      collection(db, 'message'),
-      orderBy('time', 'desc'),
-      limit(30)
-    );
+
+    const q = query(collection(db, 'message'), orderBy('time',"desc"),limit(30));
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       const messagesInfo: any[] = [];
       querySnapshot.forEach((doc) => {
-        messagesInfo.push({ id: doc.id, data: doc.data() });
+        messagesInfo.push(doc.data());
       });
       setChat(messagesInfo);
     });
@@ -72,20 +58,12 @@ const Tweet = () => {
     navigate(`${path}`);
   };
 
-  const handleTweet = async (type: tweetType) => {
+  const handleTweet = async (message: string, file: File | null) => {
     if (message === '') return;
-    if (type === tweetType.TWEET) {
-      if (tweetImage === null) {
-        await setData(message);
-      } else {
-        await sendMessageAndUploadeImage(user.displayName, message, tweetImage);
-      }
-    } else if (tweetType.COMMENT) {
-      if (tweetImage === null) {
-        await setComment(message);
-      } else {
-        await sendCommentAndUploadeImage(user.displayName, message, tweetImage);
-      }
+    if (file === null) {
+      await setData(message);
+    } else {
+      await sendMessageAndUploadeImage(user.displayName, message, file);
     }
   };
 
@@ -114,16 +92,10 @@ const Tweet = () => {
           <div className="show-message-area">
             {chat.map((chat, index) => {
               return (
-                <div key={index}>
-                  <MessageBox message={chat.data.message} />
-                  <img src={chat.data.imageUrl} />
-                  <CommentModal
-                    setMessage={setMessage}
-                    onChangeImageHandler={onChangeImageHandler}
-                    handleTweet={handleTweet(tweetType.COMMENT)}
-                    message={message}
-                    tweetImage={tweetImage}
-                  />
+                <div>
+                  <MessageBox message={chat.message} /> key={index} message=
+                  {chat.message} name={chat.name}
+                  <img src={chat.imageUrl}></img>
                 </div>
               );
             })}
@@ -131,13 +103,25 @@ const Tweet = () => {
         </p>
 
         <p className="rightside">
-          <TweetArea
-            setMessage={setMessage}
-            onChangeImageHandler={onChangeImageHandler}
-            handleTweet={handleTweet(tweetType.TWEET)}
-            message={message}
-            tweetImage={tweetImage}
-          />
+          <div className="sent">
+            <TextField onChange={(e) => setMessage(e.target.value)}></TextField>
+            <label htmlFor="file_photo" className="label_style">
+              <DriveFolderUploadIcon />
+              <input
+                type="file"
+                id="file_photo"
+                className="display_none"
+                onChange={onChangeImageHandler}
+              />
+            </label>
+            <Button
+              variant="contained"
+              className="btn"
+              onClick={() => handleTweet(message, tweetImage)}
+            >
+              Tweet
+            </Button>
+          </div>
         </p>
       </p>
     </div>
