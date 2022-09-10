@@ -89,6 +89,7 @@ export const uploadeImage = async (file: File) => {
   }
 };
 
+
 export const readImage = () => {
   const pathReference = ref(storage, 'images/stars.jpg');
   // Create a reference from a Google Cloud Storage URI
@@ -109,3 +110,5 @@ export const setComment = async (message: string, imageUrl?: string) => {
   });
   console.log("Document written with ID: ")
 }
+
+

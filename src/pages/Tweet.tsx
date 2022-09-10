@@ -24,11 +24,21 @@ import {
 } from '../models/tweetApplicationService';
 import { db, setComment, setData } from '../plugins/firebase';
 import './Tweet.css';
+import DriveFolderUploadIcon from '@mui/icons-material/DriveFolderUpload';
+import { Button, TextField } from '@mui/material';
+import AddCommentIcon from '@mui/icons-material/AddComment';
+import { IconButton } from '@mui/material';
+import Box from '@mui/material/Box';
+import Modal from '@mui/material/Modal';
+import Typography from '@mui/material/Typography';
+
 
 enum tweetType {
   COMMENT,
   TWEET,
 }
+
+
 
 const Tweet = () => {
   const user = useAppSelector(selectUser);
@@ -72,28 +82,69 @@ const Tweet = () => {
     navigate(`${path}`);
   };
 
-  const handleTweet = async (type: tweetType) => {
+
+ const handleTweet = async (message: string, file: File | null) => {
     if (message === '') return;
-    if (type === tweetType.TWEET) {
+    
       if (tweetImage === null) {
         await setData(message);
       } else {
         await sendMessageAndUploadeImage(user.displayName, message, tweetImage);
       }
-    } else if (tweetType.COMMENT) {
-      if (tweetImage === null) {
-        await setComment(message);
-      } else {
-        await sendCommentAndUploadeImage(user.displayName, message, tweetImage);
-      }
-    }
+    
   };
+
+
+  // const handleTweet = async (type: tweetType) => {
+  //   if (message === '') return;
+  //   if (type === tweetType.TWEET) {
+  //     if (tweetImage === null) {
+  //       await setData(message);
+  //     } else {
+  //       await sendMessageAndUploadeImage(user.displayName, message, tweetImage);
+  //     }
+  //   } else if (tweetType.COMMENT) {
+  //     if (tweetImage === null) {
+  //       await setComment(message);
+  //     } else {
+  //       await sendCommentAndUploadeImage(user.displayName, message, tweetImage);
+  //     }
+  //   }
+  // };
+
+  //  const handleTweet = async (message: string, file: File | null) => {
+  //   if (message === '') return;
+  //   if (file === null) {
+  //     await setData(message);
+  //   } else {
+  //     await sendMessageAndUploadeImage(user.displayName, message, file);
+  //   }
+  // };
 
   const googleLogOut = async () => {
     await logout();
     movePage('/Login');
     console.log('logout');
   };
+
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+  const style = {
+  position: 'absolute' as 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+  };
+  
+  
+
 
   return (
     <div>
@@ -117,13 +168,34 @@ const Tweet = () => {
                 <div key={index}>
                   <MessageBox message={chat.data.message} />
                   <img src={chat.data.imageUrl} />
-                  <CommentModal
-                    setMessage={setMessage}
-                    onChangeImageHandler={onChangeImageHandler}
-                    handleTweet={handleTweet(tweetType.COMMENT)}
-                    message={message}
-                    tweetImage={tweetImage}
-                  />
+                  <>
+      <IconButton
+        aria-label="fingerprint"
+        color="secondary"
+        onClick={handleOpen}
+      >
+        <AddCommentIcon />
+      </IconButton>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            Commentを記入してください
+          </Typography>
+          <TweetArea
+            setMessage={setMessage}
+            onChangeImageHandler={onChangeImageHandler}
+            handleTweet={handleTweet}
+            message={message}
+            tweetImage={tweetImage}
+          />
+        </Box>
+      </Modal>
+    </>
                 </div>
               );
             })}
@@ -131,13 +203,27 @@ const Tweet = () => {
         </p>
 
         <p className="rightside">
-          <TweetArea
-            setMessage={setMessage}
-            onChangeImageHandler={onChangeImageHandler}
-            handleTweet={handleTweet(tweetType.TWEET)}
-            message={message}
-            tweetImage={tweetImage}
+          <div>
+      <div className="sent">
+        <TextField onChange={(e) => setMessage(e.target.value)}></TextField>
+        <label htmlFor="file_photo" className="label_style">
+          <DriveFolderUploadIcon />
+          <input
+            type="file"
+            id="file_photo"
+            className="display_none"
+            onChange={onChangeImageHandler}
           />
+        </label>
+              <Button
+                variant="contained"
+                className="btn"
+                onClick={() => handleTweet(message, tweetImage)}
+            >
+              Tweet
+            </Button>
+      </div>
+    </div>
         </p>
       </p>
     </div>
