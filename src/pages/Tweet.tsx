@@ -22,7 +22,7 @@ import {
   sendCommentAndUploadeImage,
   sendMessageAndUploadeImage,
 } from '../models/tweetApplicationService';
-import { db, setComment, setData } from '../plugins/firebase';
+import { db, setComentData, setData ,} from '../plugins/firebase';
 import './Tweet.css';
 import DriveFolderUploadIcon from '@mui/icons-material/DriveFolderUpload';
 import { Button, TextField } from '@mui/material';
@@ -31,6 +31,7 @@ import { IconButton } from '@mui/material';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import Typography from '@mui/material/Typography';
+import { ResetTvRounded } from '@mui/icons-material';
 
 
 enum tweetType {
@@ -47,6 +48,8 @@ const Tweet = () => {
   const [chat, setChat] = useState<any[]>([]);
   console.log('🚀 ~ file: Tweet.tsx ~ line 38 ~ Tweet ~ chat', chat);
   const [tweetImage, setTweetImage] = useState<File | null>(null);
+  const [comment, setComent] = useState('');
+
 
   useEffect(() => {
     if (!isLogin) {
@@ -92,6 +95,11 @@ const Tweet = () => {
         await sendMessageAndUploadeImage(user.displayName, message, tweetImage);
       }
     
+ };
+  
+  const handleComment = async (comment: string,id:string) => {
+    await setComentData(comment,id);
+    console.log(comment,id)
   };
 
 
@@ -142,7 +150,8 @@ const Tweet = () => {
   boxShadow: 24,
   p: 4,
   };
-  
+   
+ 
   
 
 
@@ -164,6 +173,8 @@ const Tweet = () => {
 
           <div className="show-message-area">
             {chat.map((chat, index) => {
+
+
               return (
                 <div key={index}>
                   <MessageBox message={chat.data.message} />
@@ -175,8 +186,17 @@ const Tweet = () => {
         onClick={handleOpen}
       >
         <AddCommentIcon />
-      </IconButton>
-      <Modal
+                    </IconButton>
+
+                    <TextField onChange={(e) => setComent(e.target.value)}></TextField>
+                    <Button
+                variant="contained"
+                className="btn"
+                onClick={() =>handleComment(comment,chat.id) }
+            >
+              comment
+            </Button>
+      {/* <Modal
         open={open}
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
@@ -194,7 +214,7 @@ const Tweet = () => {
             tweetImage={tweetImage}
           />
         </Box>
-      </Modal>
+      </Modal> */}
     </>
                 </div>
               );

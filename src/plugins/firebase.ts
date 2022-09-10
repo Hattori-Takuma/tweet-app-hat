@@ -1,6 +1,6 @@
 import { getApps, initializeApp } from 'firebase/app';
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
-import { addDoc, collection, getDocs, getFirestore, query, serverTimestamp } from 'firebase/firestore';
+import { addDoc, collection, getDocs, getFirestore, query, serverTimestamp, doc } from 'firebase/firestore';
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/storage";
 
 const firebaseConfig = {
@@ -34,6 +34,23 @@ export const setData = async (message: string, imageUrl?: string) => {
   });
   console.log("Document written with ID: ")
 }
+
+export const setComentData = async (comment: string, id: string) => {
+  console.log(comment)
+  await addDoc(collection(db, "message", id, "comment"), {
+    name: "loginuserName",
+    comment: comment,
+    time: serverTimestamp()
+  })
+}
+
+
+
+
+export const commentRef = async (chat: any) => {
+  doc(db, "message", chat.id, "comment", "message1");
+}
+
 
 export const readData = async () => {
   console.log('readData')
