@@ -6,6 +6,7 @@ import {
   onSnapshot,
   orderBy,
   query,
+  getDocs
 } from 'firebase/firestore';
 
 import CommentModal from '../components/CommentModal';
@@ -22,7 +23,7 @@ import {
   sendCommentAndUploadeImage,
   sendMessageAndUploadeImage,
 } from '../models/tweetApplicationService';
-import { db, setComentData, setData ,} from '../plugins/firebase';
+import { db, setComentData, setData ,readCommentData} from '../plugins/firebase';
 import './Tweet.css';
 import DriveFolderUploadIcon from '@mui/icons-material/DriveFolderUpload';
 import { Button, TextField } from '@mui/material';
@@ -49,6 +50,7 @@ const Tweet = () => {
   console.log('🚀 ~ file: Tweet.tsx ~ line 38 ~ Tweet ~ chat', chat);
   const [tweetImage, setTweetImage] = useState<File | null>(null);
   const [comment, setComent] = useState('');
+  const [comecha, setComecha] = useState<any[]>([]);
 
 
   useEffect(() => {
@@ -72,6 +74,23 @@ const Tweet = () => {
     });
     return unsubscribe;
   }, []);
+
+ const readCommentData = async (id: string) => {
+  console.log("readCommentData")
+  const q = query(collection(db, "message", id, "comment"));
+   const querySnapshot = await getDocs(q);
+   const commentInfo: any[] = [];
+   querySnapshot.forEach((doc) => {
+     commentInfo.push({ id: doc.id, data: doc.data() });
+    console.log(doc.id, " => ", doc.data());
+  });
+ }
+ const commentReadButton = async () => {
+    console.log("read")
+    await readCommentData(comment)
+  }
+
+
 
   const onChangeImageHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files![0]) {
@@ -194,8 +213,12 @@ const Tweet = () => {
                 className="btn"
                 onClick={() =>handleComment(comment,chat.id) }
             >
-              comment
+                      comment
             </Button>
+                    <button onClick={commentReadButton}  >comment表示</button>
+                    
+
+     
       {/* <Modal
         open={open}
         onClose={handleClose}

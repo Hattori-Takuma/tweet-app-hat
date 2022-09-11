@@ -61,6 +61,19 @@ export const readData = async () => {
   });
 };
 
+export const readCommentData = async (id: string) => {
+  console.log("readCommentData")
+  const q = query(collection(db, "message", id, "comment"));
+  const querySnapshot = await getDocs(q);
+  querySnapshot.forEach((doc) => {
+    console.log(doc.id, " => ", doc.data());
+  });
+
+}
+
+
+
+
 export const uploadeImage = async (file: File) => {
   const random = Math.random().toString(32).substring(2);
   try {
