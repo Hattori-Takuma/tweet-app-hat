@@ -14,6 +14,7 @@ import CommentModal from '../components/CommentModal';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import MessageBox from '../components/MessageBox';
+import commentBox from '../components/commentBox';
 import TweetArea from '../components/TweetArea';
 import { selectUser } from '../features/user/userSlice';
 import { useLoginCheck } from '../hooks/useLoginCheck';
@@ -76,7 +77,7 @@ const Tweet = () => {
   }, []);
 
  const readCommentData = async (id: string) => {
-  console.log("readCommentData")
+  console.log("readCommentData",id)
   const q = query(collection(db, "message", id, "comment"));
    const querySnapshot = await getDocs(q);
    const commentInfo: any[] = [];
@@ -198,6 +199,9 @@ const Tweet = () => {
                 <div key={index}>
                   <MessageBox message={chat.data.message} />
                   <img src={chat.data.imageUrl} />
+                  
+                  
+
                   <>
       <IconButton
         aria-label="fingerprint"
