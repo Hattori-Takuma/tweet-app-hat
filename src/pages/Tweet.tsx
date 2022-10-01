@@ -76,6 +76,10 @@ const Tweet = () => {
     } else {
       await sendMessageAndUploadeImage(user.displayName, message, tweetImage);
     }
+    setMessage('');
+    setTweetImage(null);
+    
+
   };
 
   const handleComment = async (comment: string, id: string) => {
@@ -197,7 +201,7 @@ const Tweet = () => {
     <div className="rightside">
       <div>
         <div className="sent">
-          <TextField onChange={(e) => setMessage(e.target.value )}></TextField>
+          <TextField　value={message} onChange={(e) => setMessage(e.target.value )}></TextField>
           {/* (e) => {e.target.value = '';} */}
           <label htmlFor="file_photo" className="label_style">
             <DriveFolderUploadIcon />
