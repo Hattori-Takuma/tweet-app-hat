@@ -19,6 +19,7 @@ import { useAppSelector } from '../hooks/useRTK';
 import { logout } from '../models/authApplicationServics';
 import { sendMessageAndUploadeImage } from '../models/tweetApplicationService';
 import { db, setComentData, setData } from '../plugins/firebase';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import './Tweet.css';
 
 const Tweet = () => {
@@ -33,6 +34,9 @@ const Tweet = () => {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+
+  
 
   useEffect(() => {
     if (!isLogin) {
@@ -106,6 +110,12 @@ const Tweet = () => {
    * @returns jsx
    */
   const renderMainSide = () => (
+
+    
+
+
+
+    
     <div className="main">
       <header className="header" />
       <div className="show-message-area">
@@ -122,6 +132,8 @@ const Tweet = () => {
           const commentReadButton = async (id: string) => {
             await readCommentData(id);
           };
+
+          
           return (
             <div key={index}>
               <MessageBox message={chat.data.message} />
@@ -145,19 +157,23 @@ const Tweet = () => {
                 >
                   comment
                 </Button>
-                <button onClick={() => commentReadButton(chat.id)}>
-                  comment表示
-                </button>
+                <Button  onClick={() => commentReadButton(chat.id)}>
+                   <KeyboardArrowDownIcon></KeyboardArrowDownIcon>
+                </Button>
+               
                 {comecha &&
                   chat.id === comecha.pid &&
                   comecha.data.map((cmc, index) => {
                     return (
-                      <ul key={index}>
+                      <ul  key={index}>
+                       
+                        
                         <li>
                           username : {cmc.data.name} / comment :{' '}
                           {cmc.data.comment}
                         </li>
                       </ul>
+                     
                     );
                   })}
               </div>
@@ -203,6 +219,7 @@ const Tweet = () => {
       {renderLeftSide()}
       {renderMainSide()}
       {renderRightSide()}
+
     </div>
   );
 };
