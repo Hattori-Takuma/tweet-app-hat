@@ -1,6 +1,6 @@
 import { getApps, initializeApp } from 'firebase/app';
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
-import { addDoc, collection, getDocs, getFirestore, query, serverTimestamp, doc } from 'firebase/firestore';
+import { addDoc, collection, getDocs, getFirestore, query, serverTimestamp, doc, orderBy } from 'firebase/firestore';
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/storage";
 
 const firebaseConfig = {
@@ -63,7 +63,8 @@ export const readData = async () => {
 
 export const readCommentData = async (id: string) => {
   console.log("readCommentData")
-  const q = query(collection(db, "message", id, "comment"));
+  const q = query(collection(db, "message", id, "comment"), orderBy('time', 'desc'));
+
   const querySnapshot = await getDocs(q);
   querySnapshot.forEach((doc) => {
     console.log(doc.id, " => ", doc.data());

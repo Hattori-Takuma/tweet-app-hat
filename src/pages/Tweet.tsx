@@ -69,7 +69,7 @@ const Tweet = () => {
   };
 
   const handleTweet = async (message: string) => {
-    if (message === '') return;
+    if (message === '' && tweetImage === null ) return;
 
     if (tweetImage === null) {
       await setData(message);
@@ -121,7 +121,8 @@ const Tweet = () => {
       <div className="show-message-area">
         {chat.map((chat, index) => {
           const readCommentData = async (id: string) => {
-            const q = query(collection(db, 'message', id, 'comment'));
+            const q = query(collection(db, 'message', id, 'comment'), orderBy('time', 'desc'),
+      limit(40));
             const querySnapshot = await getDocs(q);
             const commentInfo: any[] = [];
             querySnapshot.forEach((doc) => {
@@ -136,6 +137,10 @@ const Tweet = () => {
           
           return (
             <div key={index}>
+               
+        {/* <Avatar alt="User" src={user.photoUrl} />
+                <div className="userIcon">{user.displayName}</div> */}
+                
               <MessageBox message={chat.data.message} />
               <img alt="imageUrl" src={chat.data.imageUrl} />
               <div>
@@ -192,7 +197,8 @@ const Tweet = () => {
     <div className="rightside">
       <div>
         <div className="sent">
-          <TextField onChange={(e) => setMessage(e.target.value)}></TextField>
+          <TextField onChange={(e) => setMessage(e.target.value )}></TextField>
+          {/* (e) => {e.target.value = '';} */}
           <label htmlFor="file_photo" className="label_style">
             <DriveFolderUploadIcon />
             <input
@@ -207,6 +213,7 @@ const Tweet = () => {
             className="btn"
             onClick={() => handleTweet(message)}
           >
+  
             Tweet
           </Button>
         </div>
