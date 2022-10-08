@@ -83,7 +83,9 @@ const Tweet = () => {
   };
 
   const handleComment = async (comment: string, id: string) => {
-    await setComentData(comment, id);
+    
+    await setComentData(comment, id)
+    setComent('');
   };
 
   const googleLogOut = async () => {
@@ -146,7 +148,8 @@ const Tweet = () => {
                 <div className="userIcon">{user.displayName}</div> */}
                 
               <MessageBox message={chat.data.message} />
-              <img alt="imageUrl" src={chat.data.imageUrl} />
+              <img src={chat.data.imageUrl} />
+              {/* alt="imageUrl" */}
               <div>
                 <IconButton
                   aria-label="fingerprint"
@@ -167,7 +170,7 @@ const Tweet = () => {
                   comment
                 </Button>
                 <Button  onClick={() => commentReadButton(chat.id)}>
-                   <KeyboardArrowDownIcon></KeyboardArrowDownIcon>
+                   <KeyboardArrowDownIcon ></KeyboardArrowDownIcon>
                 </Button>
                
                 {comecha &&
@@ -178,7 +181,7 @@ const Tweet = () => {
                        
                         
                         <li>
-                          username : {cmc.data.name} / comment :{' '}
+                          name : {user.displayName} / comment:{' '}
                           {cmc.data.comment}
                         </li>
                       </ul>
