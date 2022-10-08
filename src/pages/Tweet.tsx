@@ -18,7 +18,7 @@ import { useLoginCheck } from '../hooks/useLoginCheck';
 import { useAppSelector } from '../hooks/useRTK';
 import { logout } from '../models/authApplicationServics';
 import { sendMessageAndUploadeImage } from '../models/tweetApplicationService';
-import { db, setComentData, setData } from '../plugins/firebase';
+import { db, setComentData, setComment, setData } from '../plugins/firebase';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import './Tweet.css';
 
@@ -32,6 +32,8 @@ const Tweet = () => {
   const [comment, setComent] = useState('');
   const [comecha, setComecha] = useState<{ pid: string; data: any[] }>();
   const [open, setOpen] = useState(false);
+  const [isShowComment, setIsShowComment] = useState<'none' | 'block'>
+    ('none');
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
@@ -137,8 +139,16 @@ const Tweet = () => {
             });
           };
           const commentReadButton = async (id: string) => {
-            await readCommentData(id);
+            if (isShowComment === 'none') {
+            
+              await readCommentData(id);
+              setIsShowComment('block');
+            }
+            else {
+              setIsShowComment('none');
+            }
           };
+         
 
           
           return (
@@ -172,22 +182,25 @@ const Tweet = () => {
                 <Button  onClick={() => commentReadButton(chat.id)}>
                    <KeyboardArrowDownIcon ></KeyboardArrowDownIcon>
                 </Button>
-               
+             
                 {comecha &&
                   chat.id === comecha.pid &&
                   comecha.data.map((cmc, index) => {
                     return (
+                    
+                      <div>
+                      <div style={{display:isShowComment}}>
                       <ul  key={index}>
-                       
-                        
                         <li>
                           name : {user.displayName} / comment:{' '}
                           {cmc.data.comment}
                         </li>
                       </ul>
-                     
+                        </div>
+                        </div>
                     );
                   })}
+                  
               </div>
             </div>
           );
