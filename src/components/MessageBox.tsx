@@ -7,8 +7,8 @@ const MessageBox = ({message}:{message:string}) => {
     <div>
    
       <div className="content-area"></div>
-      <div className="message-area">
-        <h4>{message}</h4>
+      <div  >
+        <h4 className="message-area">{message}</h4>
           
         </div>
 

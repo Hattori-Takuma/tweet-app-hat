@@ -16,8 +16,8 @@
 }
 
 .message-area {
-  margin-left: 20px;
-  color: gray;
+  font-size: large;
+    color: white;
 }
 
 .message-area p {

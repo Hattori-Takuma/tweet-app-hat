@@ -13,7 +13,7 @@
 
 .rightside{
    color: white;
-    position: -webkit-sticky;
+  
     position: sticky;
     top: 0;
     width: 20%;
@@ -21,7 +21,7 @@
     padding: 10px;
     margin: 0;
     line-height: 3;
-    background-color:gray
+    background: linear-gradient( #011931,#484849);
 
 }
 
@@ -41,7 +41,7 @@
     margin: 0;
     padding: 10px;
     line-height: 3;
-    background: linear-gradient(#80b6e2, #87afca);
+    background: linear-gradient(#484849, #011931);
 }
 
 
@@ -51,11 +51,13 @@
     position: sticky;
     top: 0;
     width: 10%;
+       font-family: serif;
+    
  
     padding: 10px;
     margin: 0;
     line-height: 3;
-    background-color: gray;
+     background: linear-gradient( #011931,#484849);
     color: white;
 }
 .account{
@@ -64,12 +66,21 @@
     top: 0;
 }
 .sent{
+     
     display: flex;
     align-items: center;
+     position: sticky;
+    position: -webkit-sticky;
+    top: 0;
+   
+}
+.text{
+    color: #484849;
 }
 
 .display_none{
     display: none;
+    color: #484849;
 }
 
 .btn{
@@ -84,4 +95,13 @@
 
 .comment{
     display: none;
+}
+.name1{
+    font-size:small;
+    font-family: serif;
+    color: white;
+}
+.come{
+    font-size: large;
+    color: white;
 }

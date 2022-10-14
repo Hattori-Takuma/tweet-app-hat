@@ -17,10 +17,11 @@ import { selectUser } from '../features/user/userSlice';
 import { useLoginCheck } from '../hooks/useLoginCheck';
 import { useAppSelector } from '../hooks/useRTK';
 import { logout } from '../models/authApplicationServics';
-import { sendMessageAndUploadeImage } from '../models/tweetApplicationService';
-import { db, setComentData, setComment, setData } from '../plugins/firebase';
+import { sendMessageAndUploadeImage ,setData,setComentData} from '../models/tweetApplicationService';
+import { db,  setComment } from '../plugins/firebase';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import './Tweet.css';
+import Input from '@mui/material/Input';
 
 const Tweet = () => {
   const user = useAppSelector(selectUser);
@@ -74,7 +75,7 @@ const Tweet = () => {
     if (message === '' && tweetImage === null ) return;
 
     if (tweetImage === null) {
-      await setData(message);
+      await setData(user.displayName, message,);
     } else {
       await sendMessageAndUploadeImage(user.displayName, message, tweetImage);
     }
@@ -86,7 +87,7 @@ const Tweet = () => {
 
   const handleComment = async (comment: string, id: string) => {
     
-    await setComentData(comment, id)
+    await setComentData(user.displayName,comment, id)
     setComent('');
   };
 
@@ -164,21 +165,16 @@ const Tweet = () => {
                 <IconButton
                   aria-label="fingerprint"
                   color="secondary"
-                  onClick={handleOpen}
+                   onClick={() => handleComment(comment, chat.id)}
                 >
                   <AddCommentIcon />
                 </IconButton>
+                 <Input 
 
-                <TextField
+               
                   onChange={(e) => setComent(e.target.value)}
-                ></TextField>
-                <Button
-                  variant="contained"
-                  className="btn"
-                  onClick={() => handleComment(comment, chat.id)}
-                >
-                  comment
-                </Button>
+                ></Input>
+             
                 <Button  onClick={() => commentReadButton(chat.id)}>
                    <KeyboardArrowDownIcon ></KeyboardArrowDownIcon>
                 </Button>
@@ -190,11 +186,15 @@ const Tweet = () => {
                     
                       <div>
                       <div style={{display:isShowComment}}>
-                      <ul  key={index}>
-                        <li>
-                          name : {user.displayName} / comment:{' '}
+                          <ul key={index}>
+                         
+                        <div className = "name1">
+                          {cmc.data.name} 
+                            </div>
+                            <div className = "come">
+                              {' '}
                           {cmc.data.comment}
-                        </li>
+                            </div>
                       </ul>
                         </div>
                         </div>
@@ -217,7 +217,7 @@ const Tweet = () => {
     <div className="rightside">
       <div>
         <div className="sent">
-          <TextField　value={message} onChange={(e) => setMessage(e.target.value )}></TextField>
+          <TextField className="text"　　value={message} onChange={(e) => setMessage(e.target.value )}></TextField>
           {/* (e) => {e.target.value = '';} */}
           <label htmlFor="file_photo" className="label_style">
             <DriveFolderUploadIcon />

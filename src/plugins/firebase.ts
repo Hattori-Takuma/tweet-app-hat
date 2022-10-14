@@ -24,6 +24,7 @@ export const storage = getStorage()
 export const googleAuthProvider = new GoogleAuthProvider();
 
 export const setData = async (message: string, imageUrl?: string) => {
+
   console.log(message)
   console.log(imageUrl)
   await addDoc(collection(db, "message"), {
@@ -142,4 +143,13 @@ export const setComment = async (message: string, imageUrl?: string) => {
   console.log("Document written with ID: ")
 }
 
+export const sendMessage = async (uname: string, message: string, imageUrl: string) => {
+  await addDoc(collection(db, "message"), {
+    name: uname,
+    message: message,
+    imageUrl: imageUrl,
+    time: serverTimestamp()
+  });
+  console.log(`DBへ保存完了 username : [${uname}] message : [${message}] imageUrl : [${imageUrl}]`)
+}
 
