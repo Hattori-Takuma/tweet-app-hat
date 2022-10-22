@@ -84,13 +84,15 @@ export const sendMessage = async (uname: string, message: string, imageUrl: stri
   console.log(`DBへ保存完了 username : [${uname}] message : [${message}] imageUrl : [${imageUrl}]`)
 }
 
-export const setData = async (uname: string, message: string, imageUrl?: string) => {
+export const setData = async (uname: string, message: string, uphotoUrl: string, imageUrl?: string) => {
 
   console.log(message)
   console.log(imageUrl)
+  console.log(uphotoUrl)
   await addDoc(collection(db, "message"), {
     name: uname,
     message: message,
+    photoUrl: uphotoUrl,
     imageUrl: imageUrl === undefined ? "" : imageUrl,
     time: serverTimestamp()
   });

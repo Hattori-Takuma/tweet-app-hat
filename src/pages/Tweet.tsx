@@ -75,7 +75,7 @@ const Tweet = () => {
     if (message === '' && tweetImage === null ) return;
 
     if (tweetImage === null) {
-      await setData(user.displayName, message,);
+      await setData(user.displayName, message,user.photoUrl);
     } else {
       await sendMessageAndUploadeImage(user.displayName, message, tweetImage);
     }
@@ -159,6 +159,7 @@ const Tweet = () => {
                 <div className="userIcon">{user.displayName}</div> */}
                 
               <MessageBox message={chat.data.message} />
+               <Avatar alt="User" src={chat.data.photoUrl} />
               <img src={chat.data.imageUrl} />
               {/* alt="imageUrl" */}
               <div>
@@ -187,8 +188,12 @@ const Tweet = () => {
                       <div>
                       <div style={{display:isShowComment}}>
                           <ul key={index}>
-                         
-                        <div className = "name1">
+                            <div>
+                              
+
+                              </div>
+                            <div className="name1">
+                             
                           {cmc.data.name} 
                             </div>
                             <div className = "come">
