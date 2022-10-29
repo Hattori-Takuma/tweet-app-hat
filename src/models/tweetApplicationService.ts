@@ -99,11 +99,13 @@ export const setData = async (uname: string, message: string, uphotoUrl: string,
   console.log("Document written with ID: ")
 }
 
-export const setComentData = async (uname: string, comment: string, id: string) => {
+export const setComentData = async (uphotoUrl: string, uname: string, comment: string, id: string) => {
   console.log(comment)
   await addDoc(collection(db, "message", id, "comment"), {
+    photoUrl: uphotoUrl,
     name: uname,
     comment: comment,
     time: serverTimestamp()
   })
+  console.log(uphotoUrl)
 }

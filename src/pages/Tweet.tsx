@@ -87,7 +87,7 @@ const Tweet = () => {
 
   const handleComment = async (comment: string, id: string) => {
     
-    await setComentData(user.displayName,comment, id)
+    await setComentData(user.photoUrl,user.displayName,comment, id)
     setComent('');
   };
 
@@ -193,7 +193,8 @@ const Tweet = () => {
 
                               </div>
                             <div className="name1">
-                             
+                              <Avatar alt="User" src={cmc.data.photoUrl}  />
+                               
                           {cmc.data.name} 
                             </div>
                             <div className = "come">
