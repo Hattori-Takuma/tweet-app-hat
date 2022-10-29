@@ -39,6 +39,9 @@ export const sendMessageAndUploadeImage = async (uname: string, message: string,
   }
 };
 
+
+
+
 export const sendCommentAndUploadeImage = async (uname: string, message: string, file: File) => {
   const random = Math.random().toString(32).substring(2);
   try {
