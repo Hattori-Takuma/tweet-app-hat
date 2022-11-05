@@ -78,7 +78,7 @@ const Tweet = () => {
     if (tweetImage === null) {
       await setData(user.displayName, message,user.photoUrl);
     } else {
-      await sendMessageAndUploadeImage(user.displayName, message, tweetImage);
+      await sendMessageAndUploadeImage(user.displayName, message, tweetImage,user.photoUrl);
     }
     setMessage('');
     setTweetImage(null);

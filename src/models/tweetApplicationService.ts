@@ -4,7 +4,7 @@ import { storage } from "../plugins/firebase";
 
 export const db = getFirestore();
 
-export const sendMessageAndUploadeImage = async (uname: string, message: string, file: File) => {
+export const sendMessageAndUploadeImage = async (uname: string, message: string, file: File, uphotoUrl: string) => {
   const random = Math.random().toString(32).substring(2);
   try {
     const storageRef = await ref(storage, `hattori/${random}_test.png`);
@@ -30,7 +30,7 @@ export const sendMessageAndUploadeImage = async (uname: string, message: string,
       },
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          sendMessage(uname, message, downloadURL)
+          sendMessage(uname, message, downloadURL, uphotoUrl)
         });
       }
     );
@@ -42,7 +42,7 @@ export const sendMessageAndUploadeImage = async (uname: string, message: string,
 
 
 
-export const sendCommentAndUploadeImage = async (uname: string, message: string, file: File) => {
+export const sendCommentAndUploadeImage = async (uname: string, message: string, file: File, uphotoUrl: string) => {
   const random = Math.random().toString(32).substring(2);
   try {
     const storageRef = await ref(storage, `hattori/${random}_test.png`);
@@ -68,7 +68,7 @@ export const sendCommentAndUploadeImage = async (uname: string, message: string,
       },
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          sendMessage(uname, message, downloadURL)
+          sendMessage(uname, message, downloadURL, uphotoUrl)
         });
       }
     );
@@ -77,11 +77,12 @@ export const sendCommentAndUploadeImage = async (uname: string, message: string,
   }
 };
 
-export const sendMessage = async (uname: string, message: string, imageUrl: string) => {
+export const sendMessage = async (uname: string, message: string, imageUrl: string, uphotoUrl: string) => {
   await addDoc(collection(db, "message"), {
     name: uname,
     message: message,
     imageUrl: imageUrl,
+    photoUrl: uphotoUrl,
     time: serverTimestamp()
   });
   console.log(`DBへ保存完了 username : [${uname}] message : [${message}] imageUrl : [${imageUrl}]`)
