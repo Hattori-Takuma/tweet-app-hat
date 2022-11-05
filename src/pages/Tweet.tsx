@@ -57,6 +57,7 @@ const Tweet = () => {
       });
       setChat(messagesInfo);
     });
+
     return unsubscribe;
   }, [isLogin]);
 
@@ -88,7 +89,7 @@ const Tweet = () => {
   const handleComment = async (comment: string, id: string) => {
     
     await setComentData(user.photoUrl,user.displayName,comment, id)
-    setComent('');
+    setComent("");
   };
 
   const googleLogOut = async () => {
@@ -131,14 +132,21 @@ const Tweet = () => {
         {chat.map((chat, index) => {
           const readCommentData = async (id: string) => {
             const q = query(collection(db, 'message', id, 'comment'), orderBy('time', 'desc'),
-      limit(40));
-            const querySnapshot = await getDocs(q);
-            const commentInfo: any[] = [];
-            querySnapshot.forEach((doc) => {
-              commentInfo.push({ id: chat.id, data: doc.data() });
-              setComecha({ pid: chat.id, data: commentInfo });
-            });
+              limit(40));
+            
+              
+            onSnapshot(q, (querySnapshot) => {
+              const commentInfo: any[] = [];
+              querySnapshot.forEach((doc) => {
+                commentInfo.push({ id: chat.id, data: doc.data() });
+              });
+              setComecha({ pid: chat.id, data: commentInfo });  
+              })
           };
+
+
+
+    
           const commentReadButton = async (id: string) => {
             if (isShowComment === 'none') {
             

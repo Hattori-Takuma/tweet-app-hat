@@ -110,5 +110,6 @@ export const setComentData = async (uphotoUrl: string, uname: string, comment: s
     comment: comment,
     time: serverTimestamp()
   })
+
   console.log(uphotoUrl)
 }
